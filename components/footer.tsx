@@ -41,11 +41,11 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:hello@regal.com"
+                  href="mailto:regaleventbar@gmail.com"
                   className="flex items-center gap-3 text-cream/70 text-sm hover:text-cream transition-colors"
                 >
                   <Mail size={16} />
-                  <span>hello@regal.com</span>
+                  <span>regaleventbar@gmail.com</span>
                 </a>
               </li>
               <li>
