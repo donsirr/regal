@@ -3,12 +3,18 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown } from "lucide-react"
-import { menuData } from "@/lib/menu-data"
 import { ProductCard } from "@/components/product-card"
+import { MenuStation } from "@/lib/menu-data"
 
-export function MobileDrawers() {
-  const [openDrawer, setOpenDrawer] = useState<string | null>("meats")
-  const stations = Object.entries(menuData)
+interface MobileDrawersProps {
+  data: Record<string, MenuStation>
+}
+
+export function MobileDrawers({ data }: MobileDrawersProps) {
+  // Default to opening the first station if available
+  const initialKey = Object.keys(data)[0] || null
+  const [openDrawer, setOpenDrawer] = useState<string | null>(initialKey)
+  const stations = Object.entries(data)
 
   const toggleDrawer = (key: string) => {
     setOpenDrawer(openDrawer === key ? null : key)

@@ -4,8 +4,13 @@ import { motion } from "framer-motion"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { DesktopCart } from "@/components/desktop-cart"
 import { MobileDrawers } from "@/components/mobile-drawers"
+import { MenuStation } from "@/lib/menu-data"
 
-export function CartMenuSection() {
+interface CartMenuSectionProps {
+  menuData: Record<string, MenuStation>
+}
+
+export function CartMenuSection({ menuData }: CartMenuSectionProps) {
   const isMobile = useIsMobile()
 
   return (
@@ -27,8 +32,12 @@ export function CartMenuSection() {
           </p>
         </motion.div>
 
-        {/* Cart Display - Responsive */}
-        {isMobile ? <MobileDrawers /> : <DesktopCart />}
+        {/* Cart Display - Responsive - Passing data prop */}
+        {isMobile ? (
+          <MobileDrawers data={menuData} />
+        ) : (
+          <DesktopCart data={menuData} />
+        )}
       </div>
     </section>
   )

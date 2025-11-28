@@ -1,17 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Check, Sparkles } from "lucide-react"
+import { Calendar, Clock, MapPin, Users, ChevronLeft, ChevronRight, Check, Sparkles, Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { pricingTiers } from "@/lib/menu-data"
 
 const eventTypes = [
-  { id: "wedding", label: "Wedding", icon: "💒" },
-  { id: "corporate", label: "Corporate", icon: "🏢" },
+  { id: "wedding", label: "Wedding", icon: "💍" },
+  { id: "corporate", label: "Corporate", icon: "🤝" },
   { id: "birthday", label: "Birthday", icon: "🎂" },
-  { id: "private", label: "Private Party", icon: "🎉" },
+  { id: "private", label: "Private Party", icon: "🥂" },
 ]
 
 const timeSlots = [
@@ -31,13 +31,40 @@ export function BookingSection() {
   const [contactName, setContactName] = useState("")
   const [contactEmail, setContactEmail] = useState("")
   const [contactPhone, setContactPhone] = useState("")
+
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [bookedDates, setBookedDates] = useState<string[]>([])
+  const [isLoadingAvailability, setIsLoadingAvailability] = useState(false)
 
   const selectedTier = pricingTiers.find((tier) => tier.id === guestCount)
   const estimatedMin = selectedTier ? selectedTier.minGuests * selectedTier.pricePerPerson : 0
   const estimatedMax = selectedTier ? selectedTier.maxGuests * selectedTier.pricePerPerson : 0
 
-  const bookedDates = [5, 12, 18, 25]
+  useEffect(() => {
+    async function fetchAvailability() {
+      setIsLoadingAvailability(true)
+      try {
+        const res = await fetch('/api/booking')
+        if (res.ok) {
+          const data = await res.json()
+          // Expect array of "YYYY-MM-DD"
+          setBookedDates(data.bookedDates || [])
+        }
+      } catch (e) {
+        console.error("Failed to fetch calendar availability", e)
+      } finally {
+        setIsLoadingAvailability(false)
+      }
+    }
+    fetchAvailability()
+  }, [currentMonth])
+
+  // Helper to get YYYY-MM-DD string from a year/month/day
+  // This avoids timezone issues completely by string concatenation
+  const getDateString = (year: number, month: number, day: number) => {
+    return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+  }
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear()
@@ -57,12 +84,17 @@ export function BookingSection() {
     return days
   }
 
-  const isDateBooked = (day: number) => bookedDates.includes(day)
+  const isDateBooked = (day: number) => {
+    const dateString = getDateString(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+    return bookedDates.includes(dateString)
+  }
 
   const isDatePast = (day: number) => {
     const today = new Date()
-    const checkDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
-    return checkDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    // Compare strictly by date string to avoid time issues
+    const checkString = getDateString(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+    const todayString = getDateString(today.getFullYear(), today.getMonth(), today.getDate())
+    return checkString < todayString
   }
 
   const isDateSelected = (day: number) => {
@@ -87,13 +119,55 @@ export function BookingSection() {
   const prevMonth = () => {
     const today = new Date()
     const prevMonthDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
-    if (prevMonthDate >= new Date(today.getFullYear(), today.getMonth(), 1)) {
+    // Simple check: don't go back before current month
+    if (prevMonthDate.getFullYear() > today.getFullYear() ||
+      (prevMonthDate.getFullYear() === today.getFullYear() && prevMonthDate.getMonth() >= today.getMonth())) {
       setCurrentMonth(prevMonthDate)
     }
   }
 
-  const handleSubmit = () => {
-    setIsSubmitted(true)
+  const handleSubmit = async () => {
+    if (!selectedDate || !eventType || !guestCount || !timeSlot || !contactName || !contactEmail) return
+
+    setIsSubmitting(true)
+
+    // Construct date string manually for submission
+    const submissionDate = getDateString(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate())
+
+    try {
+      const res = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          date: submissionDate, // Send "YYYY-MM-DD"
+          eventType,
+          guestCount,
+          timeSlot,
+          venue,
+          contactName,
+          contactEmail,
+          contactPhone,
+          specialRequests
+        })
+      })
+
+      if (res.ok) {
+        setIsSubmitted(true)
+        // Refresh availability
+        const refreshRes = await fetch('/api/booking')
+        if (refreshRes.ok) {
+          const data = await refreshRes.json()
+          setBookedDates(data.bookedDates || [])
+        }
+      } else {
+        const errorData = await res.json()
+        alert(errorData.error || "There was an error processing your booking. Please try again.")
+      }
+    } catch (e) {
+      alert("Network error. Please check your connection.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const resetForm = () => {
@@ -111,23 +185,15 @@ export function BookingSection() {
 
   const days = getDaysInMonth(currentMonth)
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
   ]
 
   const canGoBack = () => {
     const today = new Date()
-    return currentMonth > new Date(today.getFullYear(), today.getMonth(), 1)
+    const firstDayCurrent = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
+    const firstDayToday = new Date(today.getFullYear(), today.getMonth(), 1)
+    return firstDayCurrent > firstDayToday
   }
 
   if (isSubmitted) {
@@ -230,7 +296,12 @@ export function BookingSection() {
               </div>
 
               {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-1">
+              <div className="grid grid-cols-7 gap-1 relative">
+                {isLoadingAvailability && (
+                  <div className="absolute inset-0 bg-white/50 z-10 flex items-center justify-center">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#5a7a6a]" />
+                  </div>
+                )}
                 {days.map((day, index) => (
                   <div key={index} className="aspect-square p-0.5">
                     {day !== null && (
@@ -461,13 +532,20 @@ export function BookingSection() {
                     {/* Submit Button */}
                     <button
                       onClick={handleSubmit}
-                      disabled={!eventType || !guestCount || !timeSlot || !contactName || !contactEmail}
-                      className={`w-full py-4 rounded-xl font-medium transition-all ${eventType && guestCount && timeSlot && contactName && contactEmail
+                      disabled={isSubmitting || !eventType || !guestCount || !timeSlot || !contactName || !contactEmail}
+                      className={`w-full py-4 rounded-xl font-medium transition-all flex items-center justify-center gap-2 ${eventType && guestCount && timeSlot && contactName && contactEmail && !isSubmitting
                         ? "bg-[#2d5a47] text-white hover:bg-[#1e4a37] shadow-lg hover:shadow-xl"
                         : "bg-[#e8e4de] text-[#999999] cursor-not-allowed"
                         }`}
                     >
-                      Request Reservation
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="animate-spin w-5 h-5" />
+                          Processing...
+                        </>
+                      ) : (
+                        "Request Reservation"
+                      )}
                     </button>
                   </motion.div>
                 )}

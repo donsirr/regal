@@ -1,11 +1,15 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { menuData } from "@/lib/menu-data"
 import { ProductCard } from "@/components/product-card"
+import { MenuStation } from "@/lib/menu-data"
 
-export function DesktopCart() {
-  const stations = Object.entries(menuData)
+interface DesktopCartProps {
+  data: Record<string, MenuStation>
+}
+
+export function DesktopCart({ data }: DesktopCartProps) {
+  const stations = Object.entries(data)
 
   return (
     <motion.div
