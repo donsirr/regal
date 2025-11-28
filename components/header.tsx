@@ -36,7 +36,7 @@ export function Header() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Reg<span className="text-sage">A</span>l
+            Reg<span className="text-sage">A</span>L
           </motion.button>
 
           {/* Desktop Nav */}
