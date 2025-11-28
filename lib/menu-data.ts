@@ -1,6 +1,6 @@
 export interface MenuItem {
   name: string
-  price: string
+  description?: string
   image: string
 }
 
@@ -13,31 +13,38 @@ export const menuData: Record<string, MenuStation> = {
   meats: {
     title: "Cured Meats",
     items: [
-      { name: "Prosciutto di Parma", price: "$18", image: "/thin-sliced-prosciutto-ham.jpg" },
-      { name: "Spicy Calabrese", price: "$14", image: "/spicy-salami-sliced.jpg" },
-      { name: "Coppa Stagionata", price: "$16", image: "/coppa-cured-meat-sliced.jpg" },
-      { name: "Bresaola", price: "$20", image: "/bresaola-beef-sliced.jpg" },
-      { name: "Mortadella", price: "$12", image: "/mortadella-sliced.jpg" },
+      { name: "Prosciutto di Parma", description: "24-month aged", image: "/thin-sliced-prosciutto-ham.jpg" },
+      { name: "Spicy Calabrese", description: "Calabrian chili", image: "/spicy-salami-sliced.jpg" },
+      { name: "Coppa Stagionata", description: "Dry-cured pork", image: "/coppa-cured-meat-sliced.jpg" },
+      { name: "Bresaola", description: "Air-dried beef", image: "/bresaola-beef-sliced.jpg" },
+      { name: "Mortadella", description: "Pistachio studded", image: "/mortadella-sliced.jpg" },
     ],
   },
   cheeses: {
     title: "Artisan Cheeses",
     items: [
-      { name: "Aged Manchego", price: "$16", image: "/aged-manchego-cheese-wedge.jpg" },
-      { name: "Truffle Brie", price: "$22", image: "/creamy-brie-cheese-wheel.jpg" },
-      { name: "Gorgonzola Dolce", price: "$18", image: "/blue-gorgonzola-cheese.jpg" },
-      { name: "Aged Gouda", price: "$15", image: "/aged-gouda-cheese-wedge.jpg" },
-      { name: "Fresh Burrata", price: "$24", image: "/fresh-burrata-cheese.jpg" },
+      { name: "Aged Manchego", description: "12-month aged", image: "/aged-manchego-cheese-wedge.jpg" },
+      { name: "Truffle Brie", description: "Black truffle", image: "/creamy-brie-cheese-wheel.jpg" },
+      { name: "Gorgonzola Dolce", description: "Sweet & creamy", image: "/blue-gorgonzola-cheese.jpg" },
+      { name: "Aged Gouda", description: "Dutch import", image: "/aged-gouda-cheese-wedge.jpg" },
+      { name: "Fresh Burrata", description: "Daily made", image: "/fresh-burrata-cheese.jpg" },
     ],
   },
   accoutrements: {
     title: "Accoutrements",
     items: [
-      { name: "Fig Preserves", price: "$8", image: "/fig-jam-preserves-jar.jpg" },
-      { name: "Honeycomb", price: "$12", image: "/golden-honeycomb.jpg" },
-      { name: "Marcona Almonds", price: "$10", image: "/marcona-almonds-bowl.jpg" },
-      { name: "Cornichons", price: "$7", image: "/cornichons-pickles.jpg" },
-      { name: "Grissini", price: "$6", image: "/italian-breadsticks-grissini.jpg" },
+      { name: "Fig Preserves", description: "House-made", image: "/fig-jam-preserves-jar.jpg" },
+      { name: "Honeycomb", description: "Local apiary", image: "/golden-honeycomb.jpg" },
+      { name: "Marcona Almonds", description: "Spanish roasted", image: "/marcona-almonds-bowl.jpg" },
+      { name: "Cornichons", description: "French style", image: "/cornichons-pickles.jpg" },
+      { name: "Grissini", description: "Hand-rolled", image: "/italian-breadsticks-grissini.jpg" },
     ],
   },
 }
+
+export const pricingTiers = [
+  { id: "small", label: "10-25 guests", pricePerPerson: 45, minGuests: 10, maxGuests: 25 },
+  { id: "medium", label: "26-50 guests", pricePerPerson: 40, minGuests: 26, maxGuests: 50 },
+  { id: "large", label: "51-100 guests", pricePerPerson: 35, minGuests: 51, maxGuests: 100 },
+  { id: "xlarge", label: "100+ guests", pricePerPerson: 30, minGuests: 100, maxGuests: 250 },
+]

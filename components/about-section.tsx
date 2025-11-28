@@ -24,12 +24,10 @@ export function AboutSection() {
             <div className="space-y-4 text-charcoal-light leading-relaxed">
               <p>
                 RegAl was born from a simple belief: that the best gatherings happen around beautifully crafted food.
-                What started as a passion for artisanal cheeses and cured meats in my grandmother's kitchen has evolved
-                into a luxury mobile culinary experience.
               </p>
               <p>
-                Every board we create tells a story—of local farms, generations-old recipes, and the joy of sharing. Our
-                vintage cart, restored with love, brings this experience directly to your celebrations.
+                Every board we create tells a story and the joy of sharing. Our
+                cart, with love, brings this experience directly to your celebrations.
               </p>
               <p>
                 From intimate dinner parties to grand weddings, we curate each grazing experience to reflect the unique
@@ -42,13 +40,13 @@ export function AboutSection() {
               <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-sage-light/50">
                 <img
                   src="/elegant-woman-portrait-founder.jpg"
-                  alt="Founder portrait"
+                  alt=""
                   className="w-full h-full object-cover"
                 />
               </div>
               <div>
-                <p className="font-serif text-charcoal text-lg">Elena Marchetti</p>
-                <p className="text-charcoal-light text-sm">Founder & Creative Director</p>
+                <p className="font-serif text-charcoal text-lg">RegAl</p>
+                <p className="text-charcoal-light text-sm">Founder</p>
               </div>
             </div>
           </motion.div>
@@ -66,7 +64,7 @@ export function AboutSection() {
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
                   src="/artisan-preparing-elegant-charcuterie-board-luxury.jpg"
-                  alt="Artisan preparing a charcuterie board"
+                  alt=""
                   className="w-full h-[400px] md:h-[500px] object-cover"
                 />
               </div>
@@ -82,7 +80,7 @@ export function AboutSection() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="absolute -bottom-4 right-8 bg-charcoal text-cream px-6 py-3 rounded-full shadow-lg"
               >
-                <span className="font-serif text-lg">Est. 2019</span>
+                <span className="font-serif text-lg">Est. 2025</span>
               </motion.div>
             </div>
           </motion.div>

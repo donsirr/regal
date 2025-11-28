@@ -59,7 +59,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-cream/70 text-sm">
                 <MapPin size={16} />
-                <span>San Francisco Bay Area</span>
+                <span>Location</span>
               </li>
             </ul>
           </motion.div>
@@ -96,9 +96,6 @@ export function Footer() {
                 >
                   Book Now
                 </button>
-              </li>
-              <li>
-                <button className="text-cream/70 hover:text-cream transition-colors text-sm">FAQs</button>
               </li>
             </ul>
           </motion.div>
@@ -140,10 +137,6 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-cream/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-cream/50 text-sm">© 2025 RegAl. All rights reserved.</p>
-          <div className="flex gap-6 text-cream/50 text-sm">
-            <button className="hover:text-cream/70 transition-colors">Privacy Policy</button>
-            <button className="hover:text-cream/70 transition-colors">Terms of Service</button>
-          </div>
         </div>
       </div>
     </footer>

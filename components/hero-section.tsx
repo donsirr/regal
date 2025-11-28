@@ -18,7 +18,7 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <img
           src="/elegant-charcuterie-board-with-meats-cheeses-grape.jpg"
-          alt="Elegant charcuterie spread"
+          alt=""
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-noir/70 via-noir/50 to-noir/80" />
