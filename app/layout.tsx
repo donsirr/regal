@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: "RegAl - Event Bar",
+  title: "RegAL - Event Bar",
   description:
     "Artisanal mobile charcuterie cart bringing curated grazing experiences to your events. Book our elegant cart for weddings, corporate events, and private gatherings.",
 }

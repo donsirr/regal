@@ -136,7 +136,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-cream/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-cream/50 text-sm">© 2025 RegAl. All rights reserved.</p>
+          <p className="text-cream/50 text-sm">© 2025 RegAL. All rights reserved.</p>
         </div>
       </div>
     </footer>

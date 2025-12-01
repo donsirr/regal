@@ -23,7 +23,7 @@ export function AboutSection() {
 
             <div className="space-y-4 text-charcoal-light leading-relaxed">
               <p>
-                RegAl was born from a simple belief: that the best gatherings happen around beautifully crafted food.
+                RegAL was born from a simple belief: that the best gatherings happen around beautifully crafted food.
               </p>
               <p>
                 Every board we create tells a story and the joy of sharing. Our
@@ -45,7 +45,7 @@ export function AboutSection() {
                 />
               </div>
               <div>
-                <p className="font-serif text-charcoal text-lg">RegAl</p>
+                <p className="font-serif text-charcoal text-lg">RegAL</p>
                 <p className="text-charcoal-light text-sm">Founder</p>
               </div>
             </div>

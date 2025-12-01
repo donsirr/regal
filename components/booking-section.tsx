@@ -210,7 +210,7 @@ export function BookingSection() {
             </div>
             <h3 className="font-serif text-3xl text-[#1a1a1a] mb-4">Reservation Requested</h3>
             <p className="text-[#666666] mb-2">
-              Thank you for choosing <span className="font-semibold">RegAl</span>
+              Thank you for choosing <span className="font-semibold">RegAL</span>
             </p>
             <p className="text-[#666666] mb-6">
               We&apos;ll confirm your booking for{" "}
